@@ -1,0 +1,36 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+class dbManipulation {
+  // Database connection
+  static Connection getConnection() throws Exception {
+    String driver = "com.mysql.jdbc.Driver";
+    String dbName = ""; // insert here the database name
+    String url = "jdbc:mysql://localhost:3306/" + dbName;
+    String user = "root";
+    String password = "";
+    Class.forName(driver);
+    try {
+      Connection dbConnection = DriverManager.getConnection(url, user, password);
+      System.out.println("Access granted"); // confirmation that the connection was succeeded
+      return dbConnection;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  } // end getConnection()
+
+  // Database Manipulation
+  // Simple command just to check the database manipulation
+  static void createTable() throws Exception {
+    try {
+      Connection connection = dbManipulation.getConnection();
+      PreparedStatement newCommand = connection.prepareStatement(
+          "CREATE TABLE IF NOT EXISTS emailtable(id int NOT NULL AUTO_INCREMENT, firstName varchar(255), lastName varchar(255), PRIMARY KEY(id))");
+      newCommand.executeUpdate();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  } // end createTable
+} // end class
