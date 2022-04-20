@@ -1,0 +1,90 @@
+package emailapp;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextPane;
+
+class FinalPage implements ActionListener {
+  JFrame frame = new JFrame();
+  JLabel msgLabel = new JLabel("CREATION SUCCESSFUL");
+  JTextPane mailPane = new JTextPane();
+  JTextPane passwordPane = new JTextPane();
+  JButton showMailsButton = new JButton("Check");
+  JButton finishButton = new JButton("Finish");
+
+  // Constructor
+  FinalPage(String email, String password) {
+    // Frame Specs
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setLayout(null);
+    frame.setVisible(true);
+    frame.setTitle("E-MAIL CREATED");
+    frame.setSize(600, 400);
+    frame.setResizable(false);
+    frame.setLocationRelativeTo(null);
+    // Label Specs
+    msgLabel.setBounds(170, -100, 450, 250);
+    msgLabel.setFont(new Font(null, Font.BOLD, 22));
+    frame.add(msgLabel);
+
+    mailPane.setBounds(30, 80, 400, 50);
+    mailPane.setFont(new Font(null, Font.BOLD, 15));
+    mailPane.setText("E-mail: " + email);
+    mailPane.setEditable(false);
+    mailPane.setBackground(null);
+    mailPane.setBorder(null);
+    frame.add(mailPane);
+
+    passwordPane.setBounds(30, 140, 300, 50);
+    passwordPane.setFont(new Font(null, Font.BOLD, 15));
+    passwordPane.setText("Password: " + password);
+    passwordPane.setEditable(false);
+    passwordPane.setBackground(null);
+    passwordPane.setBorder(null);
+    frame.add(passwordPane);
+
+    // Button Specs
+    showMailsButton.setBounds(130, 270, 100, 30);
+    showMailsButton.addActionListener(this);
+    showMailsButton.setFocusable(false);
+    showMailsButton.setBackground(Color.GRAY);
+    showMailsButton.setOpaque(true);
+    frame.add(showMailsButton);
+
+    finishButton.setBounds(350, 270, 100, 30);
+    finishButton.addActionListener(this);
+    finishButton.setFocusable(false);
+    finishButton.setBackground(Color.RED);
+    finishButton.setOpaque(true);
+    frame.add(finishButton);
+
+  } // end Constructor
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    // Finish Button
+    if (e.getSource() == finishButton) {
+      int option = JOptionPane.showConfirmDialog(null, "<html><font size='3'>Finish the application?", "Confirmation",
+          JOptionPane.YES_NO_OPTION);
+      // 0 = yes
+      if (option == 0) {
+        JOptionPane.showMessageDialog(null, "<html><font size='3'>Application finished!", "Finished",
+            JOptionPane.PLAIN_MESSAGE);
+        frame.dispose();
+      }
+    } // end Finish Button
+
+    // ShowMails Button
+    if (e.getSource() == showMailsButton) {
+      // Take all the emails and passwords from the database and show it
+    }
+    
+  } // end actionPerformed
+} // end class
