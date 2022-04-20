@@ -1,0 +1,47 @@
+package emailapp;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+class dbManipulation {
+  // Database connection
+  static Connection getConnection() throws Exception {
+    String driver = "com.mysql.cj.jdbc.Driver";
+    String dbName = "emailappdb";
+    String url = "jdbc:mysql://localhost:3306/" + dbName;
+    String user = "root";
+    String password = "";
+    Class.forName(driver);
+    try {
+      Connection dbConnection = DriverManager.getConnection(url, user, password);
+      return dbConnection;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  } // end getConnection()
+
+  /* Database Manipulation */
+  static void executeSQLCommand(String SQLCommand, String email, String password) throws Exception {
+    String command = SQLCommand;
+    try {
+      Connection connection = dbManipulation.getConnection();
+      PreparedStatement newCommand = connection.prepareStatement(command);
+      newCommand.executeUpdate();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  } // end executeSQLCommand
+
+  static void executeSQLCommand(String SQLCommand) throws Exception {
+    String command = SQLCommand;
+    try {
+      Connection connection = dbManipulation.getConnection();
+      PreparedStatement newCommand = connection.prepareStatement(command);
+      newCommand.executeUpdate();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  } // end executeSQLCommand
+} // end class
