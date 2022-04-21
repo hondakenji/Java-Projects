@@ -22,26 +22,14 @@ class dbManipulation {
     return null;
   } // end getConnection()
 
-  /* Database Manipulation */
-  static void executeSQLCommand(String SQLCommand, String email, String password) throws Exception {
-    String command = SQLCommand;
-    try {
-      Connection connection = dbManipulation.getConnection();
-      PreparedStatement newCommand = connection.prepareStatement(command);
-      newCommand.executeUpdate();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  } // end executeSQLCommand
-
-  static void executeSQLCommand(String SQLCommand) throws Exception {
-    String command = SQLCommand;
-    try {
-      Connection connection = dbManipulation.getConnection();
-      PreparedStatement newCommand = connection.prepareStatement(command);
-      newCommand.executeUpdate();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  // Saving data to database
+  static void executeSQLCommand(String email, String password) throws Exception {
+    Connection connection = dbManipulation.getConnection();
+    String query = "INSERT INTO emails (email, password) VALUES(?, ?)";
+    PreparedStatement newQuery = connection.prepareStatement(query);
+    newQuery.setString(1, email);
+    newQuery.setString(2, password);
+    newQuery.executeUpdate();
+    connection.close();
   } // end executeSQLCommand
 } // end class
