@@ -1,0 +1,98 @@
+package emailapp;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+class ShowData implements ActionListener {
+  JFrame frame = new JFrame();
+  JButton closeButton = new JButton("Close");
+  JScrollPane scrollPane = new JScrollPane();
+
+  private JTable table;
+
+  ShowData() {
+    // Frame Specs
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setLayout(null);
+    frame.setVisible(true);
+    frame.setTitle("STORED E-MAILS");
+    frame.setSize(600, 400);
+    frame.setResizable(false);
+    frame.setLocationRelativeTo(null);
+    // Button Specs
+    closeButton.setBounds(250, 300, 100, 30);
+    closeButton.addActionListener(this);
+    closeButton.setFocusable(false);
+    closeButton.setBackground(Color.WHITE);
+    closeButton.setOpaque(true);
+    frame.add(closeButton);
+
+    // Table Specs: windowListener to call the showDatabase function
+    frame.addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowOpened(WindowEvent e) {
+        try {
+          showDatabase();
+        } catch (Exception e1) {
+          e1.printStackTrace();
+        }
+      }
+    });
+
+    // ScrollPane Specs
+    scrollPane.setBounds(40, 10, 500, 270);
+    frame.add(scrollPane);
+    table = new JTable();
+    scrollPane.setViewportView(table);
+  } // end Constructor
+
+  // Show database function
+  void showDatabase() throws Exception {
+    Connection connection = dbManipulation.getConnection();
+    DefaultTableModel model = new DefaultTableModel();
+    // add columns
+    model.addColumn("ID");
+    model.addColumn("E-mail");
+    model.addColumn("Password");
+    // Retrieve each row from database
+    try {
+      String query = "SELECT * FROM emails";
+      Statement st = connection.createStatement();
+      ResultSet rs = st.executeQuery(query);
+      while (rs.next()) {
+        model.addRow(new Object[] { rs.getString("id"), rs.getString("email"), rs.getString("password") });
+      }
+      rs.close();
+      st.close();
+      connection.close();
+
+      table.setModel(model);
+      table.setAutoResizeMode(0);
+      table.getColumnModel().getColumn(0).setPreferredWidth(20);
+      table.getColumnModel().getColumn(1).setPreferredWidth(350);
+      table.getColumnModel().getColumn(2).setPreferredWidth(130);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  } // end showDatabase
+
+  @Override
+  // Close Button
+  public void actionPerformed(ActionEvent e) {
+    if (e.getSource() == closeButton) {
+      frame.dispose();
+    }
+  } // end closeButton
+} // end class
