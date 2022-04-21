@@ -16,8 +16,9 @@ class FinalPage implements ActionListener {
   JLabel msgLabel = new JLabel("CREATION SUCCESSFUL");
   JTextPane mailPane = new JTextPane();
   JTextPane passwordPane = new JTextPane();
-  JButton showMailsButton = new JButton("Check");
+  JButton showDataButton = new JButton("Show Data");
   JButton finishButton = new JButton("Finish");
+  JButton createButton = new JButton("Create another e-mail");
 
   // Constructor
   FinalPage(String email, String password) {
@@ -33,7 +34,7 @@ class FinalPage implements ActionListener {
     msgLabel.setBounds(170, -100, 450, 250);
     msgLabel.setFont(new Font(null, Font.BOLD, 22));
     frame.add(msgLabel);
-
+    // Textpane Specs
     mailPane.setBounds(30, 80, 400, 50);
     mailPane.setFont(new Font(null, Font.BOLD, 15));
     mailPane.setText("E-mail: " + email);
@@ -49,22 +50,27 @@ class FinalPage implements ActionListener {
     passwordPane.setBackground(null);
     passwordPane.setBorder(null);
     frame.add(passwordPane);
-
     // Button Specs
-    showMailsButton.setBounds(130, 270, 100, 30);
-    showMailsButton.addActionListener(this);
-    showMailsButton.setFocusable(false);
-    showMailsButton.setBackground(Color.GRAY);
-    showMailsButton.setOpaque(true);
-    frame.add(showMailsButton);
+    showDataButton.setBounds(130, 290, 100, 30);
+    showDataButton.addActionListener(this);
+    showDataButton.setFocusable(false);
+    showDataButton.setBackground(Color.LIGHT_GRAY);
+    showDataButton.setOpaque(true);
+    frame.add(showDataButton);
 
-    finishButton.setBounds(350, 270, 100, 30);
+    finishButton.setBounds(350, 290, 100, 30);
     finishButton.addActionListener(this);
     finishButton.setFocusable(false);
     finishButton.setBackground(Color.RED);
     finishButton.setOpaque(true);
     frame.add(finishButton);
 
+    createButton.setBounds(185, 220, 200, 30);
+    createButton.addActionListener(this);
+    createButton.setFocusable(false);
+    createButton.setBackground(Color.CYAN);
+    createButton.setOpaque(true);
+    frame.add(createButton);
   } // end Constructor
 
   @Override
@@ -79,12 +85,23 @@ class FinalPage implements ActionListener {
             JOptionPane.PLAIN_MESSAGE);
         frame.dispose();
       }
-    } // end Finish Button
+    } // end finishButton
 
-    // ShowMails Button
-    if (e.getSource() == showMailsButton) {
+    // ShowData Button
+    if (e.getSource() == showDataButton) {
       // Take all the emails and passwords from the database and show it
-    }
-    
+      ShowData showData = new ShowData();
+    } // end showDataButton
+
+    // Create Button
+    if (e.getSource() == createButton) {
+      int option = JOptionPane.showConfirmDialog(null, "<html><font size='3'>Would you like to create another e-mail?",
+          "Confirmation", JOptionPane.YES_NO_OPTION);
+      // 0 = yes
+      if (option == 0) {
+        InitialPage newPage = new InitialPage();
+        frame.dispose();
+      }
+    } // end createButton
   } // end actionPerformed
 } // end class
