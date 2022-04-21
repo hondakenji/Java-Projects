@@ -91,7 +91,7 @@ class InitialPage implements ActionListener {
       departmentField.setText("");
       JOptionPane.showMessageDialog(null, "<html><font size='4'>Everything was cleared!", "Reset！",
           JOptionPane.INFORMATION_MESSAGE);
-    }
+    } // end resetButton
 
     // Submit button
     if (e.getSource() == submitButton) {
@@ -111,11 +111,8 @@ class InitialPage implements ActionListener {
         this.password = setPassword(this.length);
         // Add the data to the database
         try {
-          String SQLCommand = "";
-          SQLCommand = "INSERT INTO emails (email, password) VALUES('" + email + "','" + password + "')";
-          dbManipulation.executeSQLCommand(SQLCommand, this.email, this.password);
+          dbManipulation.executeSQLCommand(this.email, this.password);
         } catch (Exception e1) {
-          // TODO 自動生成された catch ブロック
           e1.printStackTrace();
         }
         // Close this page
@@ -146,3 +143,4 @@ class InitialPage implements ActionListener {
     return new String(password);
   } // end setPassword
 } // end class
+
